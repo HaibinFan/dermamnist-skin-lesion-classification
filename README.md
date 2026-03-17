@@ -1,146 +1,116 @@
-# MedMNIST Skin Lesion Classification
+# Skin Lesion Classification with DermaMNIST
 
-This project implements deep learning models to classify skin lesion images using the DermaMNIST dataset from the MedMNIST collection.
+## Project Overview
 
-Two models are trained and compared:
-
-- A custom Convolutional Neural Network (SimpleCNN)
-- A pretrained ResNet18 using transfer learning
-
-The goal is to evaluate how transfer learning improves performance in medical image classification tasks.
+This project explores skin lesion classification using the DermaMNIST dataset. I trained two models — a simple CNN built from scratch and a pretrained ResNet18 — and compared how well each one performs on a 7-class classification task. The main goal was to see whether transfer learning makes a meaningful difference in a biomedical imaging context.
 
 ---
 
-# Dataset
+## Dataset
 
-This project uses the **DermaMNIST** dataset.
+The project uses the **DermaMNIST** dataset from the [MedMNIST](https://medmnist.com/) collection.
 
-Dataset characteristics:
+- **Image size:** 224 × 224
+- **Number of classes:** 7
+- **Task:** Multi-class skin lesion classification
 
-- Image size: 224 × 224
-- Number of classes: 7
-- Task: Skin lesion classification
-
-Classes:
-
-1. actinic keratoses and intraepithelial carcinoma  
-2. basal cell carcinoma  
-3. benign keratosis-like lesions  
-4. dermatofibroma  
-5. melanoma  
-6. melanocytic nevi  
-7. vascular lesions  
+**Classes:**
+1. Actinic keratoses and intraepithelial carcinoma
+2. Basal cell carcinoma
+3. Benign keratosis-like lesions
+4. Dermatofibroma
+5. Melanoma
+6. Melanocytic nevi
+7. Vascular lesions
 
 ---
 
-# Models
+## Models
 
-## 1. SimpleCNN
+### SimpleCNN
 
-A custom convolutional neural network trained from scratch.
+A lightweight CNN trained from scratch. It uses a few convolutional layers with ReLU activations and max pooling, followed by a fully connected classifier. This serves as a baseline.
 
-Architecture includes:
+### ResNet18
 
-- Convolution layers
-- ReLU activation
-- MaxPooling layers
-- Fully connected classifier
+A ResNet18 pretrained on ImageNet, fine-tuned for this task by replacing the final layer with a 7-class output head. This model benefits from features learned on a large general-purpose image dataset.
 
 ---
 
-## 2. ResNet18
+## Training Setup
 
-A pretrained **ResNet18** model using transfer learning.
-
-- Pretrained on ImageNet
-- Final classification layer modified to output 7 classes
-
----
-
-# Training Setup
-
-Training configuration:
-
-- Loss function: CrossEntropyLoss
-- Optimizer: Adam
-- Image size: 224 × 224
-- Data augmentation:
-  - Random horizontal flip
-  - Random rotation
-
-Training was performed on GPU using the HiPerGator HPC cluster.
+- **Loss function:** CrossEntropyLoss
+- **Optimizer:** Adam
+- **Image size:** 224 × 224
+- **Data augmentation:** Random horizontal flip, random rotation
+- **Hardware:** GPU (HiPerGator HPC cluster)
 
 ---
 
-# Results
+## Results
 
-## Validation Accuracy
+### Validation Accuracy
 
 | Model | Accuracy |
-|------|------|
+|---|---|
 | SimpleCNN | 75.67% |
-| ResNet18 | 87.84% |
+| ResNet18 | **87.84%** |
 
----
-
-## Test Performance
+### Test Performance
 
 | Model | Accuracy | Precision | Recall | F1 Score |
-|------|------|------|------|------|
+|---|---|---|---|---|
 | SimpleCNN | 0.7471 | 0.7178 | 0.7471 | 0.7185 |
 | ResNet18 | **0.8863** | **0.8856** | **0.8863** | **0.8844** |
 
-The pretrained ResNet18 significantly outperforms the custom CNN, demonstrating the effectiveness of transfer learning for biomedical image classification.
+---
+
+## Key Findings
+
+ResNet18 outperformed the SimpleCNN by a wide margin across all metrics. The gap comes down to transfer learning — ResNet18 already knows how to detect edges, textures, and shapes from ImageNet pretraining, so it can pick up on subtle visual patterns in skin lesion images that a small CNN trained from scratch would struggle to learn. This makes a strong case for using pretrained models even in medical imaging tasks where domain shift might seem like a concern.
 
 ---
 
-# Confusion Matrix
+## Confusion Matrix
 
-Example confusion matrix generated during evaluation.
-
-![Confusion Matrix](results/resnet18_confusion_matrix.png)
+<img src="results/resnet18_confusion_matrix.png" alt="ResNet18 Confusion Matrix" width="500"/>
 
 ---
 
-# Project Structure
-project2/
-│
-├── code/
-│ ├── train.py
-│ ├── evaluate.py
-│ ├── models.py
-│ └── plot_history.py
-│
-├── results/
-│
-└── README.md
+## Training Curves
+
+### Accuracy
+
+<img src="results/resnet18_accuracy_curve.png" alt="ResNet18 Accuracy Curve" width="500"/>
+
+### Loss
+
+<img src="results/resnet18_loss_curve.png" alt="ResNet18 Loss Curve" width="500"/>
 
 ---
 
-# How to Run
+## How to Run
 
-### 1. Install dependencies
+**1. Install dependencies**
+```bash
 pip install torch torchvision medmnist scikit-learn matplotlib
+```
 
-### 2. Train models
-python train.py
+**2. Train models**
+```bash
+python code/train.py
+```
 
-### 3. Evaluate models
-python evaluate.py
+**3. Evaluate models**
+```bash
+python code/evaluate.py
+```
 
-### 4. Plot training curves
-python plot_history.py
+**4. Plot training curves**
+```bash
+python code/plot_history.py
+```
 
 ---
 
-# Key Takeaway
-
-Transfer learning using pretrained convolutional neural networks significantly improves performance for medical image classification tasks compared to training CNN models from scratch.
-
----
-
-# Author
-
-Haibin Fan  
-Master's Student in Biomedical Engineering  
-University of Florida
+*Haibin Fan — Master's Student in Biomedical Engineering, University of Florida*
