@@ -1,18 +1,59 @@
 # Skin Lesion Classification with DermaMNIST
 
-## Project Overview
+## Overview
 
 This project explores skin lesion classification using the DermaMNIST dataset. I trained two models — a simple CNN built from scratch and a pretrained ResNet18 — and compared how well each one performs on a 7-class classification task. The main goal was to see whether transfer learning makes a meaningful difference in a biomedical imaging context.
 
 ---
 
-## Dataset
+## Clinical Context
 
-The project uses the **DermaMNIST** dataset from the [MedMNIST](https://medmnist.com/) collection.
+Skin lesion classification supports early triage in dermatology by helping distinguish benign from potentially malignant lesions in dermoscopic images. In this project, the task is not to replace diagnosis, but to benchmark model performance on a medically relevant multi-class image classification problem and compare a from-scratch baseline to transfer learning.
+
+---
+
+## Setup
+
+**1. Create and activate environment (recommended)**
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+**2. Install dependencies**
+```bash
+pip install torch torchvision medmnist scikit-learn matplotlib
+```
+
+---
+
+## Run Instructions
+
+**1. Train models**
+```bash
+python code/train.py
+```
+
+**2. Evaluate models**
+```bash
+python code/evaluate.py
+```
+
+**3. Plot training curves**
+```bash
+python code/plot_history.py
+```
+
+---
+
+## Data Info
+
+The project uses the **DermaMNIST** dataset from the [MedMNIST](https://medmnist.com/) collection. The scripts automatically download the dataset via the `medmnist` package when `download=True` is enabled in the dataloader setup.
 
 - **Image size:** 224 × 224
 - **Number of classes:** 7
 - **Task:** Multi-class skin lesion classification
+- **Splits used:** train / validation / test
 
 **Classes:**
 1. Actinic keratoses and intraepithelial carcinoma
@@ -47,7 +88,7 @@ A ResNet18 pretrained on ImageNet, fine-tuned for this task by replacing the fin
 
 ---
 
-## Results
+## Results Summary
 
 ### Validation Accuracy
 
@@ -86,30 +127,6 @@ ResNet18 outperformed the SimpleCNN by a wide margin across all metrics. The gap
 ### Loss
 
 <img src="results/resnet18_loss_curve.png" alt="ResNet18 Loss Curve" width="500"/>
-
----
-
-## How to Run
-
-**1. Install dependencies**
-```bash
-pip install torch torchvision medmnist scikit-learn matplotlib
-```
-
-**2. Train models**
-```bash
-python code/train.py
-```
-
-**3. Evaluate models**
-```bash
-python code/evaluate.py
-```
-
-**4. Plot training curves**
-```bash
-python code/plot_history.py
-```
 
 ---
 
