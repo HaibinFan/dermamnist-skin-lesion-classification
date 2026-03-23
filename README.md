@@ -129,5 +129,3 @@ ResNet18 outperformed the SimpleCNN by a wide margin across all metrics. The gap
 <img src="results/resnet18_loss_curve.png" alt="ResNet18 Loss Curve" width="500"/>
 
 ---
-
-*Haibin Fan — Master's Student in Biomedical Engineering, University of Florida*
