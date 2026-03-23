@@ -22,7 +22,7 @@ source .venv/bin/activate
 
 **2. Install dependencies**
 ```bash
-pip install torch torchvision medmnist scikit-learn matplotlib
+pip install -r requirements.txt
 ```
 
 ---
